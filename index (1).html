@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHANTOM — HF Amplifier · NPI Schedule</title>
+<meta name="theme-color" content="#070a0f">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzBkMTIxOSIvPgogIDxyZWN0IHg9IjEuNSIgeT0iMS41IiB3aWR0aD0iMjkiIGhlaWdodD0iMjkiIHJ4PSI1LjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFkMjczNSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTTggMjQgVjE0IEM4IDguNSAxMS40IDYgMTYgNiBDMjAuNiA2IDI0IDguNSAyNCAxNCBWMjQgYTIuNjY1IDIuNjY1IDAgMCAxIC01LjMzIDAgYTIuNjY1IDIuNjY1IDAgMCAxIC01LjMzIDAgYTIuNjY1IDIuNjY1IDAgMCAxIC01LjMzIDAgWiIgZmlsbD0iIzJjZTVjOCIvPgogIDxlbGxpcHNlIGN4PSIxMyIgY3k9IjE0LjUiIHJ4PSIxLjciIHJ5PSIyLjMiIGZpbGw9IiMwZDEyMTkiLz4KICA8ZWxsaXBzZSBjeD0iMTkiIGN5PSIxNC41IiByeD0iMS43IiByeT0iMi4zIiBmaWxsPSIjMGQxMjE5Ii8+CiAgPGVsbGlwc2UgY3g9IjE2IiBjeT0iMTkiIHJ4PSIxLjEiIHJ5PSIxLjQiIGZpbGw9IiMwZDEyMTkiLz4KICA8Y2lyY2xlIGN4PSIxMC42IiBjeT0iMTgiIHI9IjEuMDUiIGZpbGw9IiNmZmIwMmUiIG9wYWNpdHk9IjAuODUiLz4KICA8Y2lyY2xlIGN4PSIyMS40IiBjeT0iMTgiIHI9IjEuMDUiIGZpbGw9IiNmZmIwMmUiIG9wYWNpdHk9IjAuODUiLz4KPC9zdmc+Cg==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070a0f; --panel:#0d1219; --panel2:#111824; --line:#1d2735;
+    --grid:rgba(255,255,255,.045); --grid-strong:rgba(255,255,255,.10);
+    --text:#c8d3e0; --muted:#67788c; --faint:#3c4756;
+    --signal:#2ce5c8; --signal-dim:#1a8a7d; --amber:#ffb02e; --red:#ff5d5d; --green:#57e389;
+    --ph-design:#2ce5c8; --ph-proc:#ffb02e; --ph-build:#5b8def;
+    --ph-test:#b07cff; --ph-pre:#ff8a5b; --ph-rel:#57e389;
+    --font-display:'Chakra Petch',sans-serif; --font-mono:'JetBrains Mono',monospace;
+    --infoW:340px; --rowH:36px; --headerH:62px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:var(--font-display);
+    -webkit-font-smoothing:antialiased}
+  body{
+    background-image:
+      radial-gradient(1200px 600px at 80% -10%, rgba(44,229,200,.06), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(91,141,239,.05), transparent 60%);
+    min-height:100vh; padding:26px clamp(14px,3vw,40px) 60px;
+  }
+  .wrap{max-width:1320px;margin:0 auto}
+
+  /* ---- header ---- */
+  header.top{display:flex;align-items:flex-end;justify-content:space-between;
+    gap:24px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px}
+  .brand h1{font-size:clamp(34px,6vw,58px);font-weight:700;letter-spacing:.14em;
+    line-height:.9;background:linear-gradient(180deg,#fff,#8fb6b0);-webkit-background-clip:text;
+    background-clip:text;-webkit-text-fill-color:transparent;position:relative}
+  .brand h1::after{content:"";position:absolute;left:2px;bottom:-7px;width:64px;height:3px;
+    background:var(--signal);box-shadow:0 0 14px var(--signal)}
+  .brand .sub{font-family:var(--font-mono);font-size:12px;letter-spacing:.32em;
+    color:var(--muted);margin-top:16px;text-transform:uppercase}
+  .ticker{font-family:var(--font-mono);font-size:11px;color:var(--signal-dim);
+    letter-spacing:.18em;margin-top:6px}
+
+  /* ---- status readout ---- */
+  .readout{display:flex;gap:10px;flex-wrap:wrap}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:12px 16px;min-width:128px;position:relative;overflow:hidden}
+  .card .lbl{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.22em;
+    color:var(--muted);text-transform:uppercase}
+  .card .val{font-family:var(--font-mono);font-size:21px;font-weight:700;margin-top:5px;
+    color:var(--text)}
+  .card .val small{font-size:11px;color:var(--muted);font-weight:400}
+  .card.flag::before{content:"";position:absolute;inset:0 auto 0 0;width:3px}
+  #cardMargin.ok .val{color:var(--green)} #cardMargin.bad .val{color:var(--red)}
+  #cardMargin.ok::before{background:var(--green)} #cardMargin.bad::before{background:var(--red)}
+  #cardProg .val{color:var(--signal)}
+  .info .chk{appearance:none;-webkit-appearance:none;width:14px;height:14px;flex:none;
+    border:1.5px solid var(--faint);border-radius:4px;background:var(--panel2);cursor:pointer;
+    position:relative;transition:.15s}
+  .info .chk:checked{background:var(--signal);border-color:var(--signal)}
+  .info .chk:checked::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;
+    justify-content:center;font-size:10px;color:#04130f;font-weight:700}
+  .info.done .nm{color:var(--muted)!important;text-decoration:line-through;text-decoration-color:var(--faint)}
+  .info .act{width:112px;flex:none;background:var(--panel2);border:1px solid var(--signal-dim);
+    color:var(--signal);font-family:var(--font-mono);font-size:10.5px;padding:2px 5px;border-radius:4px;outline:none}
+  .info .act:focus{border-color:var(--signal)}
+  .bar.done{filter:saturate(.55)} .bar.done .fill{opacity:.32}
+  .bar.done .bdate{color:var(--signal)}
+  .milestone.done{background:var(--signal)!important;border-color:var(--signal)!important}
+  .milestone.done .mtxt{color:var(--signal)}
+  #cardMargin{ } .card.flag{padding-left:18px}
+
+  /* ---- toolbar ---- */
+  .toolbar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:14px;
+    font-family:var(--font-mono);font-size:12px;color:var(--muted)}
+  .toolbar label{display:flex;align-items:center;gap:8px;letter-spacing:.05em}
+  .toolbar input[type=date]{background:var(--panel2);border:1px solid var(--line);
+    color:var(--text);font-family:var(--font-mono);font-size:12px;padding:5px 8px;border-radius:6px}
+  .zoom{display:flex;gap:4px}
+  .btn{background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    font-family:var(--font-mono);font-size:12px;padding:5px 11px;border-radius:6px;cursor:pointer;
+    transition:.15s}
+  .btn:hover{border-color:var(--signal);color:var(--signal)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-left:auto}
+  .legend span{display:flex;align-items:center;gap:6px;font-size:10.5px;letter-spacing:.08em}
+  .legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+  /* ---- gantt ---- */
+  .gantt{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    overflow:auto;position:relative;box-shadow:0 24px 60px -30px rgba(0,0,0,.8)}
+  .canvas{position:relative}
+  .axis-label{position:absolute;top:8px;font-family:var(--font-mono);font-size:10.5px;
+    letter-spacing:.14em;color:var(--muted);text-transform:uppercase;white-space:nowrap;
+    padding-left:8px;pointer-events:none}
+  .gline{position:absolute;top:0;bottom:0;width:1px;background:var(--grid);pointer-events:none}
+  .gline.month{background:var(--grid-strong)}
+  .marker{position:absolute;top:0;bottom:0;width:0;pointer-events:none;z-index:5}
+  .marker .mlbl{position:absolute;top:26px;font-family:var(--font-mono);font-size:9.5px;
+    letter-spacing:.12em;padding:2px 6px;border-radius:4px;white-space:nowrap;transform:translateX(-50%)}
+  .marker.today{border-left:1px dashed var(--signal)}
+  .marker.today .mlbl{background:rgba(44,229,200,.12);color:var(--signal);left:0}
+  .marker.deadline{border-left:2px solid var(--amber)}
+  .marker.deadline .mlbl{background:rgba(255,176,46,.14);color:var(--amber);left:0;font-weight:700}
+
+  .row-bg{position:absolute;left:0;right:0;height:var(--rowH)}
+  .row-bg.alt{background:rgba(255,255,255,.018)}
+  .phase-band{position:absolute;left:0;font-family:var(--font-mono);font-size:9px;
+    letter-spacing:.2em;color:var(--faint);text-transform:uppercase;writing-mode:vertical-rl;
+    transform:rotate(180deg);text-align:center;pointer-events:none}
+
+  .info{position:absolute;left:0;height:var(--rowH);width:var(--infoW);display:flex;
+    align-items:center;gap:9px;padding:0 12px 0 16px;background:linear-gradient(90deg,var(--panel) 86%,rgba(13,18,25,.0));
+    z-index:6}
+  .info .dot{width:8px;height:8px;border-radius:2px;flex:none;box-shadow:0 0 8px currentColor}
+  .info .nm{font-size:12.5px;font-weight:500;letter-spacing:.01em;flex:1;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis}
+  .info .nm.crit{color:#fff}
+  .info .crit-tag{color:var(--amber);font-family:var(--font-mono);font-size:8px;letter-spacing:.1em}
+  .info .dur{display:flex;align-items:center;gap:3px}
+  .info .dur input{width:38px;background:var(--panel2);border:1px solid var(--line);
+    color:var(--text);font-family:var(--font-mono);font-size:11px;text-align:right;
+    padding:2px 4px;border-radius:4px;outline:none}
+  .info .dur input:focus{border-color:var(--signal)}
+  .info .dur input:disabled{opacity:.3}
+  .info .dur .u{font-family:var(--font-mono);font-size:8.5px;color:var(--muted);width:20px}
+
+  .bar{position:absolute;height:15px;border-radius:4px;display:flex;align-items:center;
+    z-index:4;cursor:default}
+  .bar .fill{position:absolute;inset:0;border-radius:4px;opacity:.92}
+  .bar.crit{box-shadow:0 0 0 1px rgba(255,255,255,.5), 0 0 12px -2px currentColor}
+  .bar .bdate{position:absolute;left:calc(100% + 7px);font-family:var(--font-mono);
+    font-size:9px;color:var(--muted);white-space:nowrap;top:1px}
+  .bar.lead .fill{background-image:repeating-linear-gradient(45deg,transparent,transparent 4px,
+    rgba(0,0,0,.22) 4px,rgba(0,0,0,.22) 8px)}
+  .milestone{position:absolute;width:15px;height:15px;transform:rotate(45deg);z-index:5;
+    border:1.5px solid #fff}
+  .milestone .mtxt{position:absolute;left:18px;top:-1px;transform:rotate(-45deg);
+    font-family:var(--font-mono);font-size:9px;white-space:nowrap;color:var(--muted)}
+
+  .note{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:14px;
+    line-height:1.7;letter-spacing:.02em}
+  .note b{color:var(--amber);font-weight:500}
+  .note .pip{color:var(--signal)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>PHANTOM</h1>
+      <div class="sub">HF Amplifier · New Product Introduction</div>
+      <div class="ticker" id="ticker">PCBA + MECH + MAGNETICS → BUILD & TEST @ FLEX · SCHEDULE v5</div>
+    </div>
+    <div class="readout">
+      <div class="card"><div class="lbl">Target</div><div class="val" id="vTarget">—</div></div>
+      <div class="card"><div class="lbl">Projected Finish</div><div class="val" id="vFinish">—</div></div>
+      <div class="card flag" id="cardMargin"><div class="lbl">Margin</div><div class="val" id="vMargin">—</div></div>
+      <div class="card" id="cardProg"><div class="lbl">Complete</div><div class="val" id="vProg">0 / 0</div></div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <label>START <input type="date" id="startDate" value="2026-06-08"></label>
+    <label>TARGET <input type="date" id="deadlineDate" value="2026-08-31"></label>
+    <div class="zoom">
+      <span style="align-self:center;letter-spacing:.1em">ZOOM</span>
+      <button class="btn" id="zoomOut">−</button>
+      <button class="btn" id="zoomFit">FIT</button>
+      <button class="btn" id="zoomIn">+</button>
+    </div>
+    <button class="btn" id="copyBtn">⧉ COPY LINK</button>
+    <button class="btn" id="exportBtn">↓ JSON</button>
+    <button class="btn" id="importBtn">↑ JSON</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none">
+    <button class="btn" id="resetBtn">RESET</button>
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="gantt" id="gantt"><div class="canvas" id="canvas"></div></div>
+
+  <div class="note" id="note"></div>
+</div>
+
+<script>
+const DAY = 86400000;
+const PHASES = {
+  pcba: {name:"PCBA Vein", color:"var(--ph-design)"},
+  mech: {name:"Mechanicals", color:"var(--ph-build)"},
+  mag:  {name:"Magnetics", color:"var(--ph-pre)"},
+  asm:  {name:"Build & Test", color:"var(--ph-rel)"},
+};
+// type: work = working days (skips weekends) | lead = calendar days (procurement) | ms = milestone
+const DEFAULT_TASKS = [
+  {id:"e1", ph:"pcba", name:"Engineering layout & SMT BOMs", type:"work", dur:10, deps:[]},
+  {id:"g1", ph:"pcba", name:"Layout / SMT BOMs complete",    type:"ms",   dur:0,  deps:["e1"]},
+  {id:"q1", ph:"pcba", name:"Quote prod qty (Bayatronics)",  type:"lead", dur:7,  deps:["g1"]},
+  {id:"po", ph:"pcba", name:"PO cycle (approve & cut)",      type:"work", dur:3,  deps:["q1"]},
+  {id:"g2", ph:"pcba", name:"Cut PO",                        type:"ms",   dur:0,  deps:["po"]},
+  {id:"c1", ph:"pcba", name:"SMT component lead time ⚠",     type:"lead", dur:28, deps:[]},
+  {id:"g3", ph:"pcba", name:"Last SMT component at Flex",    type:"ms",   dur:0,  deps:["c1"]},
+  {id:"k1", ph:"pcba", name:"Kit & ship to Bayatronics",    type:"lead", dur:5,  deps:["g3"]},
+  {id:"bb", ph:"pcba", name:"Bare PCBs to Bayatronics",     type:"lead", dur:14, deps:["g2"]},
+  {id:"g4", ph:"pcba", name:"All parts at Bayatronics",      type:"ms",   dur:0,  deps:["k1","bb"]},
+  {id:"pr", ph:"pcba", name:"Bayatronics production run",   type:"lead", dur:15, deps:["g4"]},
+  {id:"g5", ph:"pcba", name:"PCBA COMPLETE",                type:"ms",   dur:0,  deps:["pr"]},
+
+  {id:"md", ph:"mech", name:"Mechanical design (metals)",    type:"work", dur:10, deps:[]},
+  {id:"mg1",ph:"mech", name:"Final metal designs confirmed", type:"ms",   dur:0,  deps:["md"]},
+  {id:"ti", ph:"mech", name:"Tiger Industrial lead time",    type:"lead", dur:35, deps:["mg1"]},
+  {id:"mg2",ph:"mech", name:"METALS RECEIVED",               type:"ms",   dur:0,  deps:["ti"]},
+
+  {id:"ra", ph:"mag",  name:"Eng. risk assessment of magnetics", type:"work", dur:5, deps:[]},
+  {id:"wp", ph:"mag",  name:"Core & wire procurement",       type:"lead", dur:23, deps:["ra"]},
+  {id:"wg0",ph:"mag",  name:"Cores & wire on hand",          type:"ms",   dur:0,  deps:["wp"]},
+  {id:"wc", ph:"mag",  name:"Wind combiner magnetics",       type:"work", dur:20, deps:["wg0"]},
+  {id:"wa", ph:"mag",  name:"Wind pallet magnetics",         type:"work", dur:20, deps:["wg0"]},
+  {id:"ws", ph:"mag",  name:"Wind splitter magnetics",       type:"work", dur:8,  deps:["wg0"]},
+  {id:"wg1",ph:"mag",  name:"ALL MAGNETICS WOUND",           type:"ms",   dur:0,  deps:["wc","wa","ws"]},
+
+  {id:"fa", ph:"asm",  name:"Build / final assembly @ Flex", type:"work", dur:5,  deps:["g5","mg2","wg1"]},
+  {id:"ft", ph:"asm",  name:"Functional & RF test @ Flex",   type:"work", dur:5,  deps:["fa"]},
+  {id:"done",ph:"asm", name:"PHANTOM COMPLETE",              type:"ms",   dur:0,  deps:["ft"]},
+];
+
+let tasks = clone(DEFAULT_TASKS);
+let pxPerDay = null; // null => fit
+let projStart = parseDate("2026-06-08");
+let deadline  = parseDate("2026-08-31");
+let baseline  = null;  // canonical state loaded from phantom-schedule.json
+
+function clone(o){return JSON.parse(JSON.stringify(o));}
+function parseDate(s){const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d);}
+function fmtISO(d){const z=new Date(d);z.setMinutes(z.getMinutes()-z.getTimezoneOffset());return z.toISOString().slice(0,10);}
+function isWeekend(d){const x=d.getDay();return x===0||x===6;}
+function nextWorkday(d){let x=new Date(d);while(isWeekend(x))x.setDate(x.getDate()+1);return x;}
+function addCal(d,n){let x=new Date(d);x.setDate(x.getDate()+n);return x;}
+function addWork(start,dur){ // finish date occupying `dur` working days incl. start
+  if(dur<=0)return new Date(start);
+  let x=new Date(start),added=1;
+  while(added<dur){x.setDate(x.getDate()+1);if(!isWeekend(x))added++;}
+  return x;
+}
+const MONTHS=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+function fmtShort(d){return MONTHS[d.getMonth()]+" "+String(d.getDate()).padStart(2,"0");}
+
+function schedule(){
+  const byId={}; tasks.forEach(t=>byId[t.id]=t);
+  tasks.forEach(t=>{
+    let depFin=null;
+    t.deps.forEach(id=>{const f=byId[id].finish; if(!depFin||f>depFin)depFin=f;});
+    let raw = depFin ? addCal(depFin,1) : new Date(projStart);
+    if(t.type==="work"||t.type==="ms") t.start=nextWorkday(raw); else t.start=raw;
+    t.finish = (t.type==="lead") ? addCal(t.start,t.dur) : addWork(t.start,t.dur);
+    if(t.done && t.actual){
+      t.finish = parseDate(t.actual);
+      if(t.type==="ms") t.start = new Date(t.finish);
+      else if(t.finish < t.start) t.start = new Date(t.finish);
+    }
+  });
+  // project finish + critical chain
+  let fin=tasks[0], crit=new Set();
+  tasks.forEach(t=>{if(t.finish>fin.finish)fin=t;});
+  let cur=fin;
+  while(cur){crit.add(cur.id);let nx=null;cur.deps.forEach(id=>{const dt=byId[id];if(!nx||dt.finish>nx.finish)nx=dt;});cur=nx;}
+  tasks.forEach(t=>t.crit=crit.has(t.id));
+  return fin.finish;
+}
+
+function spanBounds(){
+  let lo=new Date(projStart), hi=new Date(deadline);
+  tasks.forEach(t=>{if(t.start<lo)lo=t.start;if(t.finish>hi)hi=t.finish;});
+  lo=new Date(lo.getFullYear(),lo.getMonth(),1); // snap to month start
+  hi=addCal(hi,6);
+  return {lo,hi};
+}
+
+function render(){
+  const finish=schedule();
+  const {lo,hi}=spanBounds();
+  const totalDays=Math.round((hi-lo)/DAY);
+  const gantt=document.getElementById("gantt");
+  const avail=gantt.clientWidth - getInfoW() - 2;
+  const ppd = pxPerDay || Math.max(4,(avail/totalDays));
+  const trackW=totalDays*ppd;
+  const headerH=62, rowH=36, infoW=getInfoW();
+  const canvas=document.getElementById("canvas");
+  const h=headerH+tasks.length*rowH+10;
+  canvas.style.width=(infoW+trackW)+"px";
+  canvas.style.height=h+"px";
+  const xOf=d=>infoW+Math.round((d-lo)/DAY*ppd);
+
+  let html="";
+  // row backgrounds + phase bands
+  let lastPh=null, phStart=0;
+  tasks.forEach((t,i)=>{
+    const y=headerH+i*rowH;
+    html+=`<div class="row-bg ${i%2?'alt':''}" style="top:${y}px"></div>`;
+  });
+  // phase side bands
+  tasks.forEach((t,i)=>{
+    if(t.ph!==lastPh){
+      if(lastPh!==null) html+=phaseBand(lastPh,phStart,i,headerH,rowH);
+      lastPh=t.ph; phStart=i;
+    }
+  });
+  html+=phaseBand(lastPh,phStart,tasks.length,headerH,rowH);
+
+  // month gridlines + labels
+  let m=new Date(lo);
+  while(m<hi){
+    const x=xOf(m);
+    html+=`<div class="gline month" style="left:${x}px"></div>`;
+    html+=`<div class="axis-label" style="left:${x}px">${MONTHS[m.getMonth()]} ${m.getFullYear().toString().slice(2)}</div>`;
+    // week ticks
+    let w=new Date(m); w.setDate(w.getDate()+7);
+    const nextM=new Date(m.getFullYear(),m.getMonth()+1,1);
+    while(w<nextM && w<hi){html+=`<div class="gline" style="left:${xOf(w)}px"></div>`;w.setDate(w.getDate()+7);}
+    m=nextM;
+  }
+
+  // markers: today + deadline
+  const today=new Date(); today.setHours(0,0,0,0);
+  if(today>=lo&&today<=hi)
+    html+=`<div class="marker today" style="left:${xOf(today)}px"><span class="mlbl">TODAY</span></div>`;
+  html+=`<div class="marker deadline" style="left:${xOf(deadline)}px"><span class="mlbl">TARGET ${fmtShort(deadline)}</span></div>`;
+
+  // rows: info + bar
+  tasks.forEach((t,i)=>{
+    const y=headerH+i*rowH;
+    const col=PHASES[t.ph].color;
+    const by=y+(rowH-15)/2;
+    // info
+    const unit = t.type==="lead" ? "cal" : (t.type==="ms"?"":"wd");
+    let rightCtl;
+    if(t.done){
+      rightCtl = `<input type="date" class="act" data-id="${t.id}" value="${t.actual||''}" title="actual completion date">`;
+    } else {
+      const durDisabled = t.type==="ms";
+      rightCtl = `<span class="dur"><input type="number" min="0" max="365" value="${t.dur}" data-id="${t.id}" ${durDisabled?'disabled':''}><span class="u">${unit}</span></span>`;
+    }
+    html+=`<div class="info ${t.done?'done':''}" style="top:${y}px;color:${col}">
+      <input type="checkbox" class="chk" data-id="${t.id}" ${t.done?'checked':''} title="mark complete">
+      <span class="dot" style="background:${col};color:${col}"></span>
+      <span class="nm ${t.crit?'crit':''}" style="color:${t.crit?'#fff':'var(--text)'}" title="${t.name}">${t.name}${t.crit?' <span class="crit-tag">◆CP</span>':''}</span>
+      ${rightCtl}
+    </div>`;
+    // bar / milestone
+    const x1=xOf(t.start);
+    const doneB = t.done ? "done" : "";
+    if(t.type==="ms"){
+      html+=`<div class="milestone ${t.crit?'crit':''} ${doneB}" style="left:${x1-7}px;top:${by}px;background:${col};color:${col};${t.crit?'box-shadow:0 0 12px '+col:''}">
+        <span class="mtxt">${t.done?'✓ ':''}${fmtShort(t.start)}</span></div>`;
+    } else {
+      const x2=xOf(t.finish)+Math.max(2,ppd*0.6);
+      const w=Math.max(6,x2-x1);
+      html+=`<div class="bar ${t.crit?'crit':''} ${t.type==='lead'?'lead':''} ${doneB}" style="left:${x1}px;top:${by}px;width:${w}px;color:${col}">
+        <span class="fill" style="background:${col}"></span>
+        <span class="bdate">${t.done?'✓ ':''}${fmtShort(t.finish)}</span>
+      </div>`;
+    }
+  });
+
+  canvas.innerHTML=html;
+
+  // readout
+  document.getElementById("vTarget").textContent=fmtShort(deadline)+" '"+deadline.getFullYear().toString().slice(2);
+  document.getElementById("vFinish").textContent=fmtShort(finish)+" '"+finish.getFullYear().toString().slice(2);
+  const marginDays=Math.round((deadline-finish)/DAY);
+  const card=document.getElementById("cardMargin");
+  const vm=document.getElementById("vMargin");
+  if(marginDays>=0){card.className="card flag ok";vm.innerHTML=`+${marginDays} <small>days</small>`;}
+  else{card.className="card flag bad";vm.innerHTML=`${marginDays} <small>days</small>`;}
+
+  renderLegend();
+  renderNote(finish,marginDays);
+  // progress
+  const doneN=tasks.filter(t=>t.done).length;
+  document.getElementById("vProg").innerHTML=`${doneN} <small>/ ${tasks.length}</small>`;
+  // bind duration inputs
+  canvas.querySelectorAll(".dur input").forEach(inp=>{
+    inp.addEventListener("change",e=>{
+      const id=e.target.dataset.id;const v=Math.max(0,parseInt(e.target.value||"0",10));
+      const t=tasks.find(x=>x.id===id); if(t){t.dur=v; render();}
+    });
+  });
+  // bind completion checkbox + actual-date
+  canvas.querySelectorAll(".chk").forEach(c=>{
+    c.addEventListener("change",e=>{
+      const t=tasks.find(x=>x.id===e.target.dataset.id);
+      if(t){ t.done=e.target.checked; if(t.done&&!t.actual)t.actual=fmtISO(new Date()); if(!t.done)t.actual=null; render(); }
+    });
+  });
+  canvas.querySelectorAll(".act").forEach(a=>{
+    a.addEventListener("change",e=>{
+      const t=tasks.find(x=>x.id===e.target.dataset.id);
+      if(t){ t.actual=e.target.value||null; render(); }
+    });
+  });
+  updateHash();
+}
+
+function phaseBand(ph,startI,endI,headerH,rowH){
+  const top=headerH+startI*rowH, ht=(endI-startI)*rowH;
+  return `<div class="phase-band" style="left:1px;top:${top}px;height:${ht}px;line-height:14px;width:14px">${PHASES[ph].name}</div>`;
+}
+
+function getInfoW(){
+  return Math.min(340, Math.max(250, document.getElementById("gantt").clientWidth*0.34));
+}
+
+function renderLegend(){
+  const el=document.getElementById("legend");
+  el.innerHTML=Object.values(PHASES).map(p=>`<span><i style="background:${p.color}"></i>${p.name}</span>`).join("")
+    + `<span><i style="background:var(--amber);background-image:repeating-linear-gradient(45deg,transparent,transparent 3px,rgba(0,0,0,.3) 3px,rgba(0,0,0,.3) 6px)"></i>lead-time</span>`
+    + `<span style="color:var(--amber)">◆CP = critical path</span>`;
+}
+
+function renderNote(finish,margin){
+  const el=document.getElementById("note");
+  const c1=tasks.find(t=>t.id==="c1");
+  const ti=tasks.find(t=>t.id==="ti");
+  const byId={};tasks.forEach(t=>byId[t.id]=t);
+  let fin=tasks[0];tasks.forEach(t=>{if(t.finish>fin.finish)fin=t;});
+  const drivingVein = PHASES[fin.ph] ? PHASES[fin.ph].name : "—";
+  let verdict = margin>=0
+    ? `<span class="pip">▸ FITS:</span> Phantom completes ${fmtShort(finish)} — ${margin} day(s) inside the ${fmtShort(deadline)} target. Driven by the <b style="color:var(--green)">${drivingVein}</b> vein.`
+    : `<b>▸ OVER BY ${Math.abs(margin)} DAYS:</b> latest vein finishes ${fmtShort(finish)}, past the ${fmtShort(deadline)} target. Critical vein: <b>${drivingVein}</b>.`;
+  el.innerHTML = `${verdict}<br>
+  Three veins run in <b>parallel</b>, then converge at <b style="color:var(--green)">Build & Test @ Flex</b> — Phantom can't start the build until PCBAs, metals, <i>and</i> magnetics are all here. The ◆CP bars trace back through whichever vein delivers <i>last</i> into that step. Durations are <span class="pip">placeholders</span> — edit any and the chain recomputes live.<br>
+  Three lead/labor bars feed the join: <b>SMT component lead (${c1?c1.dur:'—'} cal)</b>, <b>Tiger Industrial lead (${ti?ti.dur:'—'} cal)</b>, and <b>magnetics winding</b> (hand-labor, scales with build qty). The slowest of those three sets your start-of-build date — shorten anything else and the date won't budge.`;
+}
+
+// ---- controls ----
+document.getElementById("startDate").addEventListener("change",e=>{projStart=parseDate(e.target.value);render();});
+document.getElementById("deadlineDate").addEventListener("change",e=>{deadline=parseDate(e.target.value);render();});
+document.getElementById("zoomIn").addEventListener("click",()=>{pxPerDay=(pxPerDay||currentPpd())*1.3;render();});
+document.getElementById("zoomOut").addEventListener("click",()=>{pxPerDay=Math.max(3,(pxPerDay||currentPpd())/1.3);render();});
+document.getElementById("zoomFit").addEventListener("click",()=>{pxPerDay=null;render();});
+document.getElementById("resetBtn").addEventListener("click",()=>{
+  tasks=clone(DEFAULT_TASKS); pxPerDay=null;
+  if(baseline) applyState(baseline);
+  render();
+});
+function currentPpd(){
+  const {lo,hi}=spanBounds();const totalDays=Math.round((hi-lo)/DAY);
+  const avail=document.getElementById("gantt").clientWidth-getInfoW()-2;
+  return Math.max(4,avail/totalDays);
+}
+// ---- share / persistence (works on static GitHub Pages) ----
+function stateObj(){
+  const t={}, c={};
+  tasks.forEach(x=>{ if(x.type!=="ms") t[x.id]=x.dur; if(x.done) c[x.id]=x.actual||""; });
+  return {s:fmtISO(projStart), d:fmtISO(deadline), t, c};
+}
+function applyState(o){
+  if(!o) return;
+  if(o.s){projStart=parseDate(o.s); document.getElementById("startDate").value=o.s;}
+  if(o.d){deadline=parseDate(o.d); document.getElementById("deadlineDate").value=o.d;}
+  if(o.t){tasks.forEach(x=>{ if(o.t[x.id]!=null) x.dur=o.t[x.id]; });}
+  if(o.c){
+    tasks.forEach(x=>{ x.done=false; x.actual=null; });
+    Object.keys(o.c).forEach(id=>{const x=tasks.find(t=>t.id===id); if(x){x.done=true; x.actual=o.c[id]||null;}});
+  }
+}
+function updateHash(){
+  try{ history.replaceState(null,"","#p="+btoa(JSON.stringify(stateObj()))); }catch(e){}
+}
+function decodeHash(){
+  const h=location.hash;
+  if(h && h.indexOf("#p=")===0){ try{ applyState(JSON.parse(atob(h.slice(3)))); }catch(e){} }
+}
+function copyLink(){
+  const url=location.origin+location.pathname+"#p="+btoa(JSON.stringify(stateObj()));
+  const btn=document.getElementById("copyBtn"),old=btn.textContent;
+  const done=()=>{btn.textContent="✓ COPIED";setTimeout(()=>btn.textContent=old,1400);};
+  if(navigator.clipboard&&navigator.clipboard.writeText)
+    navigator.clipboard.writeText(url).then(done,()=>prompt("Copy this link:",url));
+  else prompt("Copy this link:",url);
+}
+function exportJSON(){
+  const blob=new Blob([JSON.stringify(stateObj(),null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download="phantom-schedule.json";a.click();URL.revokeObjectURL(a.href);
+}
+function importJSON(file){
+  const r=new FileReader();
+  r.onload=()=>{try{applyState(JSON.parse(r.result));render();}catch(e){alert("Could not read that file.");}};
+  r.readAsText(file);
+}
+document.getElementById("copyBtn").addEventListener("click",copyLink);
+document.getElementById("exportBtn").addEventListener("click",exportJSON);
+document.getElementById("importBtn").addEventListener("click",()=>document.getElementById("importFile").click());
+document.getElementById("importFile").addEventListener("change",e=>{if(e.target.files[0])importJSON(e.target.files[0]);});
+window.addEventListener("resize",()=>{if(!pxPerDay)render();});
+
+// ---- startup: load canonical baseline from repo, then any shared-link override ----
+async function init(){
+  tasks=clone(DEFAULT_TASKS);
+  try{
+    const r=await fetch("phantom-schedule.json?ts="+Date.now(),{cache:"no-store"});
+    if(r.ok) applyState(await r.json());
+  }catch(e){ /* no repo file (e.g. opened locally) -> use baked-in defaults */ }
+  baseline=JSON.parse(JSON.stringify(stateObj()));  // canonical = defaults + repo file
+  decodeHash();                                      // a #p= share link overrides for this view
+  render();
+}
+init();
+</script>
+</body>
+</html>
